@@ -1,0 +1,145 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <title>Veiculos</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="add">
+            <h4>Meus Veiculos</h4>
+
+            <!--MODAL-->
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                data-bs-whatever="@mdo">
+                <i class="bi bi-plus-lg"></i>Novo veiculo</button>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title fs-5" id="exampleModalLabel">Cadastre um novo veiculo</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="#" th:action="@{/salvar/veiculo}" enctype="multipart/form-data"
+                                th:object="${veiculoatual}">
+                                <div class="mb-3">
+                                    <label for="modelo" class="form-label">Modelo</label>
+                                    <input class="form-control" th:field="*{modelo}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ano" class="form-label">Ano</label>
+                                    <input class="form-control" th:field="*{ano}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="preco" class="form-label">Preço</label>
+                                    <input class="form-control" th:field="*{preco}">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="file" name="file" />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tipo" class="form-label">Tipo do veiculo</label>
+                                    <input type="text" class="form-control" th:field="*{tipo}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cor" class="form-label">Cor do veiculo</label>
+                                    <input type="text" class="form-control" th:field="*{cor}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="marca" class="form-label">Marca do veiculo</label>
+                                    <input type="text" class="form-control" th:field="*{marca}">
+                                </div>
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-success">Salvar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3" th:each="veiculo : ${veiculos}">
+                <div class="card">
+                    <img th:src="@{/imagens/veiculos/{img}(img=${veiculo.imagem})}" class="card-img-top" width="300px"
+                        alt="Imagem veiculo">
+                    <div class="card-info">
+                        <p class="card-brand" th:text="${veiculo.marca}"></p>
+                        <p class="card-title" th:text="${veiculo.modelo}"></p>
+                        <p class="card-price" th:text="${veiculo.preco}"></p>
+                        <a class="btn btn-primary" th:href="@{/detalhe/veiculo/{id}(id=${veiculo.id})}">Ver Detalhes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<style>
+    body {
+        font-weight: 500;
+        background-color: #F8F8FF;
+    }
+
+    .container {
+        height: 100vh;
+    }
+
+    .card {
+        margin-top: 32px;
+        border: none;
+        text-align: center;
+        background-color: linen;
+    }
+
+    .card:hover {
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    .card-title {
+        font-size: large;
+    }
+
+    .card-price {
+        color: darkred;
+        font-size: large;
+        font-weight: bold;
+    }
+
+    .card-info {
+        padding-bottom: 10px;
+    }
+
+    .add {
+        width: 100%;
+        justify-content: space-between;
+        display: flex;
+        margin-top: 30px;
+        align-items: center;
+    }
+
+    .bi{
+        padding: 5px;
+    }
+
+    .btn-primary{
+        width: 95%;
+    }
+</style>

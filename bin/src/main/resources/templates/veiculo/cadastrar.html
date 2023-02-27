@@ -1,0 +1,50 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Novo veiculo</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="mb-3">
+            CADASTRAR VEICULO
+        </h2>
+        
+        <form method="POST"  action="#" th:action="@{/veiculo/salvar}" th:object="${veiculoatual}">
+            <div class="mb-3">
+                <label for="modelo" class="form-label">Modelo</label>
+                <input class="form-control" th:field="*{modelo}">
+            </div>
+            <div class="mb-3">
+                <label for="ano" class="form-label">Ano</label>
+                <input class="form-control" th:field="*{ano}">
+            </div>
+            <div class="mb-3">
+                <label for="preco" class="form-label">Preço</label>
+                <input class="form-control" th:field="*{preco}">
+            </div>
+            <div class="mb-3">
+                <label for="imagem" class="form-label">IMG</label>
+                <input class="form-control" th:field="*{imagem}">
+            </div>
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo do veiculo</label>
+                <select class="form-control" th:field="*{tipo}">
+                    <option th:each="tipo : ${tipos}" th:value="${tipo.id}" th:text="${tipo.nometipo}">
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+</body>
+
+</html>
