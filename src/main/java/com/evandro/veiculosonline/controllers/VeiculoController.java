@@ -90,4 +90,37 @@ public class VeiculoController {
         this.vr.deleteById(id);
         return "redirect:/";
     }
+
+    @GetMapping("/editar/veiculo/{veiculoId}")
+    public ModelAndView editarVeiculo(@PathVariable("veiculoId") Long id) {
+        ModelAndView mv = new ModelAndView("EditarVeiculo");
+
+        Optional<Veiculo> detalheVeiculo = this.vr.findById(id);
+        if (detalheVeiculo.isPresent()) {
+            mv.addObject("veiculo", detalheVeiculo.get());
+        }
+
+        return mv;
+    }
+
+    @PostMapping("save/editar/veiculo/{veiculoId}")
+    public String saveEditarVeiculo(Veiculo formVeiculo, @PathVariable("veiculoId") Long id) {
+
+        Optional<Veiculo> optional = this.vr.findById(id);
+        
+        if (optional.isPresent()) {
+            Veiculo veiculo = optional.get();
+
+            veiculo.setAno(formVeiculo.getAno());
+            veiculo.setCor(formVeiculo.getCor());
+            veiculo.setMarca(formVeiculo.getMarca());
+            veiculo.setModelo(formVeiculo.getModelo());
+            veiculo.setPreco(formVeiculo.getPreco());
+            veiculo.setTipo(formVeiculo.getTipo());
+
+            this.vr.save(veiculo);
+        }
+        
+        return "redirect:/";
+    }
 }

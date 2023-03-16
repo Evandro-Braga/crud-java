@@ -17,7 +17,10 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container my-4">
+        <div class="flex pt-4">
+            <a th:href="@{/}">HOME</a>
+        </div>
         <div class="add">
             <h4>Meus Veiculos</h4>
 
@@ -38,30 +41,30 @@
                                 th:object="${veiculoatual}">
                                 <div class="mb-3">
                                     <label for="modelo" class="form-label">Modelo</label>
-                                    <input class="form-control" th:field="*{modelo}">
+                                    <input class="form-control" th:field="*{modelo}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="ano" class="form-label">Ano</label>
-                                    <input class="form-control" th:field="*{ano}">
+                                    <input class="form-control" th:field="*{ano}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="preco" class="form-label">Preço</label>
-                                    <input class="form-control" th:field="*{preco}">
+                                    <input class="form-control" th:field="*{preco}" required>
                                 </div>
                                 <div class="mb-3">
                                     <input type="file" name="file" />
                                 </div>
                                 <div class="mb-3">
                                     <label for="tipo" class="form-label">Tipo do veiculo</label>
-                                    <input type="text" class="form-control" th:field="*{tipo}">
+                                    <input type="text" class="form-control" th:field="*{tipo}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="cor" class="form-label">Cor do veiculo</label>
-                                    <input type="text" class="form-control" th:field="*{cor}">
+                                    <input type="text" class="form-control" th:field="*{cor}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="marca" class="form-label">Marca do veiculo</label>
-                                    <input type="text" class="form-control" th:field="*{marca}">
+                                    <input type="text" class="form-control" th:field="*{marca}" required>
                                 </div>
 
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -95,18 +98,19 @@
 <style>
     body {
         font-weight: 500;
-        background-color: #F8F8FF;
+        background-image: url(/imagens/veiculos/FUNDO-HOME.jpg);
     }
 
     .container {
         height: 100vh;
+        background-color: #F8F8FF;
     }
 
     .card {
         margin-top: 32px;
         border: none;
         text-align: center;
-        background-color: linen;
+        background-color: lightgray;
     }
 
     .card:hover {

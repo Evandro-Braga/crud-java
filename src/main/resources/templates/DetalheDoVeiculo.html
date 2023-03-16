@@ -17,7 +17,10 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container my-4">
+        <div class="flex pt-4">
+            <a th:href="@{/}">HOME</a>
+        </div>
         <div class="row">
             <div class="col">
                 <img class="img-fluid rounded" th:src="@{/imagens/veiculos/{img}(img=${v.imagem})}" alt="imagem veiculo">
@@ -44,7 +47,13 @@
     
                 <p class="preco" th:text="${v.preco}"></p>
 
-                <a class="btn btn-danger" th:href="@{/deletar/veiculo/{id}(id=${v.id})}"> <i class="bi bi-trash"></i> Deletar veiculo</a>
+                <div class="row">
+                    <a class="btn btn-warning" th:href="@{/editar/veiculo/{id}(id=${v.id})}"> <i class="bi bi-pencil-square"></i> Editar veiculo</a>
+                </div>
+
+                <div class="row">
+                    <a class="btn btn-danger" th:href="@{/deletar/veiculo/{id}(id=${v.id})}"> <i class="bi bi-trash"></i> Deletar veiculo</a>
+                </div>
             </div>
         </div>
     </div>
@@ -55,11 +64,12 @@
 <style>
     body {
         font-weight: 500;
-        background-color: #F8F8FF;
+        background-image: url(/imagens/veiculos/FUNDO-HOME.jpg);
     }
 
     .container {
         height: 100vh;
+        background-color: #F8F8FF;
     }
 
     .preco {
