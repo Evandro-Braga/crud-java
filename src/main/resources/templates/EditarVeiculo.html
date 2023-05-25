@@ -55,6 +55,10 @@
                 <label for="marca" class="form-label">Marca do veiculo</label>
                 <input type="text" class="form-control" th:field="*{marca}" required>
             </div>
+            <div class="mb-3">
+                <label for="marca" class="form-label">Descriçao do veiculo</label>
+                <textarea class="form-control" th:field="*{descricao}" required></textarea>
+            </div>
             <button type="submit" class="btn btn-success">Salvar</button>
         </form>
     </div>

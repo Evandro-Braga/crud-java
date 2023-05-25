@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.evandro.veiculosonline.models.Usuario;
 import com.evandro.veiculosonline.models.Veiculo;
 import com.evandro.veiculosonline.repository.VeiculoRepository;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class VeiculoController {
@@ -28,11 +31,14 @@ public class VeiculoController {
     @Autowired
     private VeiculoRepository vr;
 
-    @GetMapping("/")
-    public ModelAndView ListarVeiculos() {
-        ModelAndView mv = new ModelAndView("Index");
-        List<Veiculo> listadeveiculos = (List<Veiculo>) this.vr.findAll();
-        mv.addObject("veiculos", listadeveiculos);
+    @GetMapping("/meus/veiculos")
+    public ModelAndView MeusVeiculos(HttpSession session) {
+        ModelAndView mv = new ModelAndView("MeusVeiculos");
+
+        Usuario usuarioSessao = (Usuario)session.getAttribute("usuarioLogado");
+
+        Iterable<Veiculo> meusVeiculos = this.vr.findByProprietario(usuarioSessao);
+        mv.addObject("veiculos", meusVeiculos);
 
         Veiculo veiculo = new Veiculo();
         mv.addObject("veiculoatual", veiculo);
@@ -40,7 +46,11 @@ public class VeiculoController {
     }
 
     @PostMapping("/salvar/veiculo")
-    public String SalvarVeiculo(Veiculo veiculo, @RequestParam("file") MultipartFile arquivo) {
+    public String SalvarVeiculo(Veiculo veiculo, @RequestParam("file") MultipartFile arquivo, HttpSession session) {
+
+        Usuario usuarioSessao = (Usuario)session.getAttribute("usuarioLogado");
+
+        veiculo.setProprietario(usuarioSessao);
 
         String formatPreco = "R$ "+veiculo.getPreco();
         veiculo.setPreco(formatPreco);

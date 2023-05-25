@@ -17,79 +17,37 @@
 </head>
 
 <body>
-    <div class="container my-4 pb-4">
-        <div class="flex pt-4">
-            <a th:href="@{/}">HOME</a>
-        </div>
-        <div class="add">
-            <h4>Meus Veiculos</h4>
-
-            <!--MODAL-->
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                data-bs-whatever="@mdo">
-                <i class="bi bi-plus-lg"></i>Novo veiculo</button>
-
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title fs-5" id="exampleModalLabel">Cadastre um novo veiculo</h3>
-                        </div>
-                        <div class="modal-body">
-                            <form method="POST" action="#" th:action="@{/salvar/veiculo}" enctype="multipart/form-data"
-                                th:object="${veiculoatual}">
-                                <div class="mb-3">
-                                    <label for="modelo" class="form-label">Modelo</label>
-                                    <input class="form-control" th:field="*{modelo}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="ano" class="form-label">Ano</label>
-                                    <input class="form-control" th:field="*{ano}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="preco" class="form-label">Preço</label>
-                                    <input class="form-control" th:field="*{preco}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="file" name="file" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="tipo" class="form-label">Tipo do veiculo</label>
-                                    <input type="text" class="form-control" th:field="*{tipo}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="cor" class="form-label">Cor do veiculo</label>
-                                    <input type="text" class="form-control" th:field="*{cor}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="marca" class="form-label">Marca do veiculo</label>
-                                    <input type="text" class="form-control" th:field="*{marca}" required>
-                                </div>
-
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                <button type="submit" class="btn btn-success">Salvar</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="container">
+    
+        <div class="row justify-content-around py-3 mt-4 border-bottom bg-dark rounded">
+            <a class="links" th:href="@{/}">HOME</a>
+            
+            <a class="links" th:unless="${session.usuarioLogado}" th:href="@{/cadastrar/usuario}"> CADASTRE-SE </a>
+            <a class="links" th:if="${session.usuarioLogado}" th:href="@{/meus/veiculos}">MEUS VEICULOS</a>
+        
+            <a class="links" th:if="${session.usuarioLogado}" th:href="@{/logout}"> SAIR </a>
+            <a class="links" th:unless="${session.usuarioLogado}" th:href="@{/login}">LOGIN</a>
         </div>
 
+        <h4 class="mt-4">Todos os Veiculos</h4>
+    
         <div class="row">
             <div class="col-md-3" th:each="veiculo : ${veiculos}">
-                <div class="card">
-                    <img th:src="@{/imagens/veiculos/{img}(img=${veiculo.imagem})}" class="card-img-top" width="300px"
-                        alt="Imagem veiculo">
-                    <div class="card-info">
-                        <p class="card-brand" th:text="${veiculo.marca}"></p>
-                        <p class="card-title" th:text="${veiculo.modelo}"></p>
-                        <p class="card-price" th:text="${veiculo.preco}"></p>
-                        <a class="btn btn-primary" th:href="@{/detalhe/veiculo/{id}(id=${veiculo.id})}">Ver Detalhes</a>
+                <a th:href="@{/detalhe/veiculo/{id}(id=${veiculo.id})}">
+                    <div class="card border-0 mt-2">
+                        <img th:src="@{/imagens/veiculos/{img}(img=${veiculo.imagem})}" class="card-img-top"
+                            alt="Imagem do veiculo">
+                        <div class="p-2">
+                            <span th:text="${veiculo.marca}"></span>
+                            <span th:text="${veiculo.modelo}"></span>
+                            
+                            <p class="card-price" th:text="${veiculo.preco}"></p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
+    
     </div>
 </body>
 
@@ -98,52 +56,39 @@
 <style>
     body {
         font-weight: 500;
-        background-image: url(/imagens/veiculos/FUNDO-HOME.jpg);
+        background-color: whitesmoke;
     }
 
     .container {
         min-height: 100vh;
-        background-color: #F8F8FF;
     }
 
-    .card {
-        margin-top: 32px;
-        border: none;
-        text-align: center;
-        background-color: lightgray;
+    .links {
+        color: white;
+    }
+
+    .links:hover{
+        color: white;
     }
 
     .card:hover {
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
 
-    .card-title {
-        font-size: large;
-    }
-
     .card-price {
         color: darkred;
-        font-size: large;
         font-weight: bold;
+        font-size: large;
+        margin-top: 8px;
     }
 
-    .card-info {
-        padding-bottom: 10px;
+    .card-img-top {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
     }
 
-    .add {
-        width: 100%;
-        justify-content: space-between;
-        display: flex;
-        margin-top: 30px;
-        align-items: center;
-    }
-
-    .bi{
-        padding: 5px;
-    }
-
-    .btn-primary{
-        width: 95%;
+    h4 {
+        font-style: italic;
     }
 </style>

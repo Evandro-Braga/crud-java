@@ -23,7 +23,7 @@ public class Veiculo {
     private String tipo;
     private String cor;
     private String marca;
-
+    private String descricao;
     @ManyToOne
     private Usuario proprietario;
 }
