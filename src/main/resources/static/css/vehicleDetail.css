@@ -1,0 +1,22 @@
+body {
+    font-weight: 500;
+    background-image: url(\src\main\resources\static\images\FUNDO-HOME.jpg);
+}
+
+.container {
+    height: 100vh;
+}
+
+.preco {
+    color: darkred;
+    font-weight: bold;
+    font-size: large;
+}
+
+small {
+    border-bottom: 1px solid;
+}
+
+.row {
+    margin-top: 36px;
+}

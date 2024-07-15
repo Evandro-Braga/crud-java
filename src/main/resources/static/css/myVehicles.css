@@ -1,0 +1,28 @@
+body {
+    font-weight: 500;
+    background-color: whitesmoke;
+}
+
+.container {
+    min-height: 100vh;
+}
+
+.links {
+    color: white;
+}
+
+.links:hover {
+    color: white;
+}
+
+.add {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    margin-top: 30px;
+    align-items: center;
+}
+
+h4 {
+    font-style: italic;
+}
