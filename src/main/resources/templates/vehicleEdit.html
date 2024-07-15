@@ -11,53 +11,50 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" th:href="@{/css/vehicleEdit.css}">
     <title>Editar Veiculo</title>
 </head>
 
 <body>
+    <nav th:replace="index :: navbar"></nav>
     <div class="container my-4">
-        <div class="flex pt-4 mb-4">
-            <a th:href="@{/}">HOME</a>
-        </div>
-
         <div>
             <h4> Editar Veiculo </h4>
         </div>
-
-        <form method="POST" action="#" th:action="@{/save/editar/veiculo/{id}(id=${veiculo.id})}" th:object="${veiculo}">
+        <form method="POST" action="#" th:action="@{/vehicles/edit/save/{id}(id=${veiculo.id})}" th:object="${veiculo}">
             <div class="mb-3">
-                <label for="modelo" class="form-label">Id</label>
+                <label for="id" class="form-label">Id</label>
                 <input class="form-control" th:field="*{id}" disabled>
             </div>
             <div class="mb-3">
-                <label for="modelo" class="form-label">Modelo</label>
-                <input class="form-control" th:field="*{modelo}" required>
+                <label for="modelVehicle" class="form-label">Modelo</label>
+                <input class="form-control" th:field="*{modelVehicle}" required>
             </div>
             <div class="mb-3">
-                <label for="ano" class="form-label">Ano</label>
-                <input class="form-control" th:field="*{ano}" required>
+                <label for="yearVehicle" class="form-label">Ano</label>
+                <input class="form-control" th:field="*{yearVehicle}" required>
             </div>
             <div class="mb-3">
-                <label for="preco" class="form-label">Preço</label>
-                <input class="form-control" th:field="*{preco}" required>
+                <label for="price" class="form-label">Preço</label>
+                <input class="form-control" th:field="*{price}" required>
             </div>
             <div class="mb-3">
-                <label for="tipo" class="form-label">Tipo do veiculo</label>
-                <input type="text" class="form-control" th:field="*{tipo}" required>
+                <label for="typeVehicle" class="form-label">Tipo do veiculo</label>
+                <input type="text" class="form-control" th:field="*{typeVehicle}" required>
             </div>
             <div class="mb-3">
-                <label for="cor" class="form-label">Cor do veiculo</label>
-                <input type="text" class="form-control" th:field="*{cor}" required>
+                <label for="color" class="form-label">Cor do veiculo</label>
+                <input type="text" class="form-control" th:field="*{color}" required>
             </div>
             <div class="mb-3">
-                <label for="marca" class="form-label">Marca do veiculo</label>
-                <input type="text" class="form-control" th:field="*{marca}" required>
+                <label for="brand" class="form-label">Marca do veiculo</label>
+                <input type="text" class="form-control" th:field="*{brand}" required>
             </div>
             <div class="mb-3">
-                <label for="marca" class="form-label">Descriçao do veiculo</label>
-                <textarea class="form-control" th:field="*{descricao}" required></textarea>
+                <label for="description" class="form-label">Descriçao do veiculo</label>
+                <textarea class="form-control" th:field="*{description}" required></textarea>
             </div>
             <button type="submit" class="btn btn-success">Salvar</button>
         </form>
@@ -65,15 +62,3 @@
 </body>
 
 </html>
-
-<style>
-    body {
-        font-weight: 500;
-        background-image: url(/imagens/veiculos/FUNDO-HOME.jpg);
-    }
-
-    .container {
-        height: 100vh;
-        background-color: #F8F8FF;
-    }
-</style>

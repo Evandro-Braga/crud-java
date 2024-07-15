@@ -1,7 +1,5 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,84 +9,46 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" th:href="@{/css/index.css}">
     <title>Veiculos</title>
 </head>
-
 <body>
-    <div class="container">
-    
-        <div class="row justify-content-around py-3 mt-4 border-bottom bg-dark rounded">
-            <a class="links" th:href="@{/}">HOME</a>
-            
-            <a class="links" th:unless="${session.usuarioLogado}" th:href="@{/cadastrar/usuario}"> CADASTRE-SE </a>
-            <a class="links" th:if="${session.usuarioLogado}" th:href="@{/meus/veiculos}">MEUS VEICULOS</a>
-        
-            <a class="links" th:if="${session.usuarioLogado}" th:href="@{/logout}"> SAIR </a>
-            <a class="links" th:unless="${session.usuarioLogado}" th:href="@{/login}">LOGIN</a>
+    <nav class="navbar navbar-expand-lg navbar-light justify-content-between" th:fragment="navbar">
+        <a class="navbar-brand"th:href="@{/}">Veiculosz</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:unless="${session.userLogin}" th:href="@{/user/register}">Cadastre-se</a>
+                    <a class="nav-link" th:if="${session.userLogin}" th:href="@{/vehicles/my}">Meus veiculos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:if="${session.userLogin}" th:href="@{/logout}">Sair</a>
+                    <a class="nav-link" th:unless="${session.userLogin}" th:href="@{/login}">Login</a>
+                </li>
+            </ul>
         </div>
-
-        <h4 class="mt-4">Todos os Veiculos</h4>
-    
+    </nav>
+    <div class="container">
         <div class="row">
-            <div class="col-md-3" th:each="veiculo : ${veiculos}">
-                <a th:href="@{/detalhe/veiculo/{id}(id=${veiculo.id})}">
+            <div class="col-md-3" th:each="vehicle : ${vehicles}">
+                <a th:href="@{/vehicles/details/{id}(id=${vehicle.id})}">
                     <div class="card border-0 mt-2">
-                        <img th:src="@{/imagens/veiculos/{img}(img=${veiculo.imagem})}" class="card-img-top"
-                            alt="Imagem do veiculo">
+                        <img th:src="@{'/images/'+${vehicle.image}}" class="card-img-top" alt="imagem do veiculo">
                         <div class="p-2">
-                            <span th:text="${veiculo.marca}"></span>
-                            <span th:text="${veiculo.modelo}"></span>
-                            
-                            <p class="card-price" th:text="${veiculo.preco}"></p>
+                            <span th:text="${vehicle.brand}"></span>
+                            <span th:text="${vehicle.modelVehicle}"></span>
+                            <p class="card-price" th:text="${vehicle.price}"></p>
                         </div>
                     </div>
                 </a>
             </div>
         </div>
-    
     </div>
 </body>
-
 </html>
-
-<style>
-    body {
-        font-weight: 500;
-        background-color: whitesmoke;
-    }
-
-    .container {
-        min-height: 100vh;
-    }
-
-    .links {
-        color: white;
-    }
-
-    .links:hover{
-        color: white;
-    }
-
-    .card:hover {
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    }
-
-    .card-price {
-        color: darkred;
-        font-weight: bold;
-        font-size: large;
-        margin-top: 8px;
-    }
-
-    .card-img-top {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    }
-
-    h4 {
-        font-style: italic;
-    }
-</style>
