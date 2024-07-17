@@ -99,6 +99,7 @@ public class VehicleController {
             veiculo.setModelVehicle(formVeiculo.getModelVehicle());
             veiculo.setPrice(formVeiculo.getPrice());
             veiculo.setTypeVehicle(formVeiculo.getTypeVehicle());
+            veiculo.setDescription(formVeiculo.getDescription());
             this.vr.save(veiculo);
         }
         return "redirect:/";
