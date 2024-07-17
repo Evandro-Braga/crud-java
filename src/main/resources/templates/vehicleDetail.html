@@ -24,8 +24,10 @@
             <div class="col">
                 <img th:src="@{'/images/'+${vehicle.image}}" class="img-fluid" alt="imagem do veiculo">
             </div>
-            <div class="col">
-                <small>Informaçoes do Veiculo</small>
+            <div class="col m-auto">
+                <p>
+                    <small>INFORMAÇÕES DO VEICULO</small>
+                </p>
                 <h4 th:text="${vehicle.brand}"></h4>
     
                 <div class="d-flex">
@@ -48,13 +50,17 @@
         </div>
         <div class="row">
             <div class="col">
-                <small>Descriçao do Veiculo</small>
+                <p>
+                  <small>DESCRIÇÃO</small>  
+                </p>
                 <div class="d-flex">
                     <p class="ml-2" th:text="${vehicle.description}"></p>
                 </div>
             </div>
             <div class="col">
-                <small> Informaçoes do Proprietario</small>
+                <p>
+                   <small> INFORMAÇÕES DO PROPRIETARIO</small> 
+                </p>
                 <div class="d-flex">
                     <i class="bi bi-person"></i>
                     <p class="ml-2" th:text="${vehicle.owner.name}"></p>
