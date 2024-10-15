@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,9 +15,10 @@
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <title>Veiculos</title>
 </head>
+
 <body>
-    <nav class="navbar navbar-dark bg-dark navbar-expand-lg justify-content-between px-5" th:fragment="navbar">
-        <a class="navbar-brand"th:href="@{/}">SB Veiculos</a>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg justify-content-between" th:fragment="navbar">
+        <a class="navbar-brand" th:href="@{/}">GARAGE77</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -24,19 +26,19 @@
         <div class="d-flex collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" th:unless="${session.userLogin}" th:href="@{/user/register}">Cadastre-se</a>
+                    <a class="nav-link" th:unless="${session.userLogin}" th:href="@{/user/create}">Cadastre-se</a>
                     <a class="nav-link" th:if="${session.userLogin}" th:href="@{/vehicles/my}">Meus veiculos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:if="${session.userLogin}" th:href="@{/logout}">Sair</a>
+                    <a class="nav-link" th:if="${session.userLogin}" th:href="@{/login/out}">Sair</a>
                     <a class="nav-link" th:unless="${session.userLogin}" th:href="@{/login}">Login</a>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3" th:each="vehicle : ${vehicles}">
+            <div class="col-md-2" th:each="vehicle : ${vehicles}">
                 <a th:href="@{/vehicles/details/{id}(id=${vehicle.id})}">
                     <div class="card border-0 mt-2">
                         <img th:src="@{'/images/'+${vehicle.image}}" class="card-img-top" alt="imagem do veiculo">
@@ -51,4 +53,5 @@
         </div>
     </div>
 </body>
+
 </html>

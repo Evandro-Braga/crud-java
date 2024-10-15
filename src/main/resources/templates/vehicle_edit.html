@@ -23,7 +23,7 @@
         <div>
             <h4> Editar Veiculo </h4>
         </div>
-        <form method="POST" action="#" th:action="@{/vehicles/edit/save/{id}(id=${veiculo.id})}" th:object="${veiculo}">
+        <form method="POST" action="#" th:action="@{/vehicles/edit/{id}(id=${veiculo.id})}" th:object="${veiculo}">
             <div class="mb-3">
                 <label for="id" class="form-label">Id</label>
                 <input class="form-control" th:field="*{id}" disabled>

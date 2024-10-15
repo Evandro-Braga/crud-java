@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,12 +14,13 @@
     <link rel="stylesheet" th:href="@{/css/login.css}">
     <title>Login</title>
 </head>
+
 <body>
     <nav th:replace="index :: navbar"></nav>
     <div class="container">
         <div class="formBox">
             <h4 class="mt-4"> Login </h4>
-            <form form method="POST" action="#" th:action="@{/login/getUser}" th:object="${user}">
+            <form form method="POST" action="#" th:action="@{/login}" th:object="${user}">
                 <div class="alert alert-danger" role="alert" th:if="${ErrorMsg}">
                     <strong th:text="${ErrorMsg}"></strong>
                 </div>
