@@ -2,9 +2,10 @@ package com.evandro.veiculosonline.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.evandro.veiculosonline.models.User;
 import com.evandro.veiculosonline.repository.UserRepository;
@@ -12,33 +13,33 @@ import com.evandro.veiculosonline.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
     private UserRepository ur;
 
-    @GetMapping("/login")
-    public ModelAndView login(){
+    @GetMapping
+    public String login(Model model) {
         User user = new User();
-        return new ModelAndView("login", "user", user);
+        model.addAttribute("user", user);
+        return "login";
     }
 
-    @GetMapping("/logout")
+    @PostMapping
+    public String getUser(User user, HttpSession session, Model model) {
+        User userSession = this.ur.findByEmailAndPassword(user.getEmail(), user.getPassword());
+        if (userSession == null) {
+            model.addAttribute("ErrorMsg", "Usuario nao encontrado!!");
+            return "login";
+        }
+        session.setAttribute("userLogin", userSession);
+        return "index";
+    }
+
+    @GetMapping("/out")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
     }
-
-    @PostMapping("/login/getUser")
-    public ModelAndView getUser(User user, HttpSession session) {
-        User userSession = this.ur.findByEmailAndPassword(user.getEmail(), user.getPassword());
-        if(userSession == null) {
-            return new ModelAndView("login", "ErrorMsg", "Usuario nao encontrado!!");
-        }else{
-            session.setAttribute("userLogin", userSession);
-            return new ModelAndView("index");
-        }
-    }
-
-    
 }

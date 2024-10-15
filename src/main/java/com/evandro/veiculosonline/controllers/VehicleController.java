@@ -1,107 +1,82 @@
 package com.evandro.veiculosonline.controllers;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.evandro.veiculosonline.exceptions.VehicleNotFoundException;
 import com.evandro.veiculosonline.models.User;
 import com.evandro.veiculosonline.models.Vehicle;
-import com.evandro.veiculosonline.repository.VehicleRepository;
+import com.evandro.veiculosonline.services.VehicleService;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping(path = {"/", "/vehicles"})
 public class VehicleController {
 
-    private static String imgPath = "./src/main/resources/static/images/";
-
     @Autowired
-    private VehicleRepository vr;
+    private VehicleService service;
 
-    @GetMapping("/")
-    public ModelAndView allVehicles() {
-        Iterable<Vehicle> allVehicles = this.vr.findAll();
-        return new ModelAndView("index", "vehicles", allVehicles);
+    @GetMapping
+    public String getAll(Model model) {
+        model.addAttribute("vehicles", this.service.getAll());
+        return "index";
     }
 
-    @GetMapping("/vehicles/my")
-    public ModelAndView myVehicles(HttpSession session) {
-        User userSession = (User)session.getAttribute("userLogin");
-        Iterable<Vehicle> myVehicles = this.vr.findByOwner(userSession);
-        Vehicle vehicle = new Vehicle();
-        return new ModelAndView("myVehicles","vehicles", myVehicles)
-        .addObject("postVehicle", vehicle);
+    @GetMapping("/my")
+    public String getMy(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("userLogin");
+        model.addAttribute("vehicles", service.getByOwner(user))
+                .addAttribute("postVehicle", new Vehicle());
+        return "vehicles_my";
     }
 
-    @PostMapping("/vehicles/save")
+    @PostMapping("/save")
     public String save(Vehicle vehicle, @RequestParam("file") MultipartFile file, HttpSession session) {
-        User userSession = (User)session.getAttribute("userLogin");
-        vehicle.setOwner(userSession);
-        String priceFormat = "R$ "+vehicle.getPrice();
-        vehicle.setPrice(priceFormat);
-        this.vr.save(vehicle);
-        try {
-            if(!file.isEmpty()){
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get(imgPath+ String.valueOf(vehicle.getId()) +file.getOriginalFilename());
-                Files.write(path, bytes);
-                vehicle.setImage(String.valueOf(vehicle.getId()) +file.getOriginalFilename());
-                this.vr.save(vehicle);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        User user = (User) session.getAttribute("userLogin");
+        service.create(vehicle, file, user);
         return "redirect:/";
     }
 
-    @GetMapping("/vehicles/details/{vehicleId}")
-    public ModelAndView details(@PathVariable("vehicleId") Long id) {
-        Optional<Vehicle> vehicle = this.vr.findById(id);
-        if (vehicle.isPresent()) {
-            return new ModelAndView("vehicleDetail","vehicle", vehicle.get());
-        }
-        return new ModelAndView("vehicleDetail");
+    @GetMapping("/details/{vehicleId}")
+    public String details(@PathVariable("vehicleId") Long id, Model model) {
+        Optional<Vehicle> vehicle = service.getOne(id);
+        model.addAttribute("vehicle", vehicle.get());
+        return "vehicle_detail";
     }
 
-    @GetMapping("/vehicles/remove/{vehicleId}")
-    public String remove(@PathVariable("vehicleId") Long id) {
-        this.vr.deleteById(id);
+    @GetMapping("/delete/{vehicleId}")
+    public String delete(@PathVariable("vehicleId") Long id) {
+        service.delete(id);
         return "redirect:/";
     }
 
-    @GetMapping("/vehicles/edit/{vehicleId}")
-    public ModelAndView edit(@PathVariable("vehicleId") Long id) {
-        Optional<Vehicle> vehicle = this.vr.findById(id);
-        if (vehicle.isPresent()) {
-            return new ModelAndView("vehicleEdit", "veiculo", vehicle.get());
-        }
-        return new ModelAndView("vehicleEdit");
+    @GetMapping("/edit/{vehicleId}")
+    public String edit(@PathVariable("vehicleId") Long id, Model model) {
+        Optional<Vehicle> vehicle = service.getOne(id);
+        model.addAttribute("veiculo", vehicle.get());
+        return "vehicle_edit";
+
     }
 
-    @PostMapping("/vehicles/edit/save/{vehicleId}")
+    @PostMapping("/edit/{vehicleId}")
     public String saveEdit(Vehicle formVeiculo, @PathVariable("vehicleId") Long id) {
-        Optional<Vehicle> optional = this.vr.findById(id);
-        if (optional.isPresent()) {
-            Vehicle veiculo = optional.get();
-            veiculo.setYearVehicle(formVeiculo.getYearVehicle());
-            veiculo.setColor(formVeiculo.getColor());
-            veiculo.setBrand(formVeiculo.getBrand());
-            veiculo.setModelVehicle(formVeiculo.getModelVehicle());
-            veiculo.setPrice(formVeiculo.getPrice());
-            veiculo.setTypeVehicle(formVeiculo.getTypeVehicle());
-            veiculo.setDescription(formVeiculo.getDescription());
-            this.vr.save(veiculo);
-        }
+        service.edit(id, formVeiculo);
         return "redirect:/";
+    }
+
+    @ExceptionHandler(VehicleNotFoundException.class)
+    public String handleVehicleNotFoundException(Exception ex) {
+        return "error";
     }
 }

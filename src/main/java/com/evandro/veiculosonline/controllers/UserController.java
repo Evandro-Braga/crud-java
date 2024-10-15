@@ -2,27 +2,30 @@ package com.evandro.veiculosonline.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMapping;
 import com.evandro.veiculosonline.models.User;
-import com.evandro.veiculosonline.repository.UserRepository;
+import com.evandro.veiculosonline.services.UserService;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
-    private UserRepository ur;
+    private UserService service;
     
-    @GetMapping("/user/register")
-    public ModelAndView saveUser(){
+    @GetMapping("/create")
+    public String create(Model model){
         User user = new User();
-        return new ModelAndView("userRegister", "user", user);
+        model.addAttribute("user", user);
+        return "user_register";
     }
 
-    @PostMapping("/user/save")
-    public String SalvarUsuario(User user){
-        this.ur.save(user);
+    @PostMapping("/create")
+    public String save(User user){
+        service.create(user);
         return "redirect:/login";
     }
 }
