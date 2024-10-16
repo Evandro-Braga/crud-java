@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
     <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/site.css}">
     <title>Veiculos</title>
 </head>
 
@@ -42,10 +43,10 @@
                 <a th:href="@{/vehicles/details/{id}(id=${vehicle.id})}">
                     <div class="card border-0 mt-2">
                         <img th:src="@{'/images/'+${vehicle.image}}" class="card-img-top" alt="imagem do veiculo">
-                        <div class="p-2">
+                        <div class="text-center">
                             <span th:text="${vehicle.brand}"></span>
                             <span th:text="${vehicle.modelVehicle}"></span>
-                            <p class="card-price" th:text="${vehicle.price}"></p>
+                            <div class="card-price" th:text="${vehicle.price}"></div>
                         </div>
                     </div>
                 </a>

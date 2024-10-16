@@ -1,10 +1,9 @@
-body {
-    font-weight: 500;
-    background-image: url(/src/main/resources/static/images/FUNDO-HOME.jpg);
-}
+
 .formBox{
     width: 500px;
     padding: 16px;
     margin: auto;
     margin-top: 120px;
+    background-color: white;
+    border-radius: 8px;
 }
